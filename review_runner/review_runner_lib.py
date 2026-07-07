@@ -1,13 +1,16 @@
 import concurrent.futures
 
 import agents.agent_registry
+import agents.agent_base
 import review_types
 
 
 def perform_review(
     review_request: review_types.ReviewRequest,
+    agents_to_run: list[agents.agent_base.AgentBase] | None = None,
 ) -> list[review_types.ReviewResponse]:
-    agents_to_run = agents.agent_registry.get_agents_for_request(review_request)
+    if agents_to_run is None:
+        agents_to_run = agents.agent_registry.get_agents_for_request(review_request)
     review_futures = []
     with concurrent.futures.ThreadPoolExecutor() as executor:
         for agent_to_run in agents_to_run:
