@@ -1,0 +1,23 @@
+name: Code Formatting
+
+permissions:
+  contents: read
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  check_formatting:
+    name: Check Formatting
+    runs-on: ubuntu-24.04
+    steps:
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+    - name: Install Dependencies
+      run: |
+        pip3 install black=='23.*' --break-system-packages
+    - name: Check Formatting
+      run: |
+        black --check .
