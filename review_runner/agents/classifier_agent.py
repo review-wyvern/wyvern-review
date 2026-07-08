@@ -4,6 +4,7 @@ import json
 import agents.agent_base
 import review_types
 
+from google.adk.models import base_llm
 from google.adk.agents import LlmAgent
 from google.adk.runners import Runner
 from google.adk.sessions import InMemorySessionService
@@ -31,6 +32,8 @@ warnings can also be considered trivial. Otherwise, build system changes
 should be marked as non-trivial.
 """
 
+DEFAULT_MODEL = "gemini-3.1-pro-preview"
+
 
 class ClassifierAgentOutput(pydantic.BaseModel):
     trivial: bool = pydantic.Field(
@@ -39,11 +42,11 @@ class ClassifierAgentOutput(pydantic.BaseModel):
 
 
 class ClassifierAgent(agents.agent_base.AgentBase):
-    async def classify_diff(self, diff: str) -> bool:
+    async def classify_diff(self, diff: str, model: base_llm.BaseLlm | str) -> bool:
         classifier_agent = LlmAgent(
             name="classifier",
             description="Classifies commits",
-            model="gemini-3.1-pro-preview",
+            model=model,
             instruction=INSTRUCTIONS,
             output_schema=ClassifierAgentOutput,
         )
@@ -71,9 +74,11 @@ class ClassifierAgent(agents.agent_base.AgentBase):
         return is_trivial
 
     def perform_review(
-        self, review_request: review_types.ReviewRequest
+        self,
+        review_request: review_types.ReviewRequest,
+        model: base_llm.BaseLlm | str = DEFAULT_MODEL,
     ) -> review_types.ReviewResponse:
-        is_trivial = asyncio.run(self.classify_diff(review_request.diff))
+        is_trivial = asyncio.run(self.classify_diff(review_request.diff, model))
         return review_types.ReviewResponse(
             summary_comments=[
                 "This commit is trivial" if is_trivial else "This commit is non-trivial"
