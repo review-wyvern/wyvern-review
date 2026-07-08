@@ -24,5 +24,6 @@ jobs:
     - name: Run Tests
       run: |
         source venv/bin/activate
+        cd review_runner
         pytest
 
