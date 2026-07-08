@@ -12,7 +12,7 @@ import pydantic
 
 INSTRUCTIONS = """
 You are an expert code review agent. Classify the following patch as trivial or
-False,t. Your final response should consist solely of a single JSON object of the
+not. Your final response should consist solely of a single JSON object of the
 following form:
 
 {"trivial": <true/false>}
@@ -33,7 +33,7 @@ should be marked as non-trivial.
 
 
 class ClassifierAgentOutput(pydantic.BaseModel):
-    trivial: bool = pydantic.Field("Whether or not the commit is trivial.")
+    trivial: bool = pydantic.Field(..., description="Whether or not the commit is trivial.")
 
 
 class ClassifierAgent(agents.agent_base.AgentBase):
