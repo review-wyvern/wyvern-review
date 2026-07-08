@@ -1,8 +1,12 @@
 import agents.agent_base
 import agents.hello_world_agent
+import agents.classifier_agent
 import review_types
 
-AGENT_REGISTRY = [agents.hello_world_agent.HelloWorldAgent]
+AGENT_REGISTRY = [
+    agents.hello_world_agent.HelloWorldAgent,
+    agents.classifier_agent.ClassifierAgent,
+]
 
 
 def get_agents_for_request(
