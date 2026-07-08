@@ -1,7 +1,6 @@
 import asyncio
 import unittest
 
-from google.adk.models import llm_request
 from google.adk.models import llm_response
 from google.genai import types
 
