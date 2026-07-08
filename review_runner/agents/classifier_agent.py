@@ -33,7 +33,9 @@ should be marked as non-trivial.
 
 
 class ClassifierAgentOutput(pydantic.BaseModel):
-    trivial: bool = pydantic.Field(..., description="Whether or not the commit is trivial.")
+    trivial: bool = pydantic.Field(
+        ..., description="Whether or not the commit is trivial."
+    )
 
 
 class ClassifierAgent(agents.agent_base.AgentBase):
