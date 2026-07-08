@@ -3,14 +3,14 @@ import unittest
 from google.adk.models import llm_response
 from google.genai import types
 
-import classifier_agent
-import mock_model
+import agents.classifier_agent
+import agents.mock_model
 import review_types
 
 
 class ClassifierAgentTest(unittest.TestCase):
     def test_trivial_commit(self):
-        model_mock = mock_model.MockModel(
+        model_mock = agents.mock_model.MockModel(
             responses=[
                 llm_response.LlmResponse(
                     content=types.Content(
@@ -20,7 +20,7 @@ class ClassifierAgentTest(unittest.TestCase):
                 )
             ]
         )
-        agent = classifier_agent.ClassifierAgent()
+        agent = agents.classifier_agent.ClassifierAgent()
         review_request = review_types.ReviewRequest(
             diff="test diff", title="test title", description="test description"
         )
@@ -33,7 +33,7 @@ class ClassifierAgentTest(unittest.TestCase):
         )
 
     def test_non_trivial_commit(self):
-        model_mock = mock_model.MockModel(
+        model_mock = agents.mock_model.MockModel(
             responses=[
                 llm_response.LlmResponse(
                     content=types.Content(
@@ -42,7 +42,7 @@ class ClassifierAgentTest(unittest.TestCase):
                 )
             ]
         )
-        agent = classifier_agent.ClassifierAgent()
+        agent = agents.classifier_agent.ClassifierAgent()
         review_request = review_types.ReviewRequest(
             diff="test diff", title="test title", description="test description"
         )
