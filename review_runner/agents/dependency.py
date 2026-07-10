@@ -10,6 +10,8 @@ class Dependency(abc.ABC):
     If two agents have the same dependency, the dependencies will get merged in
     a manner up to the implementation (e.g., two agents need different targets
     built, but a single Dependency class will handle building all of them).
+
+    A single dependency class should never vary the type of its subdependencies.
     """
 
     def execute_return_type(self) -> type:
