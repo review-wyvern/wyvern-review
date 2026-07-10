@@ -1,5 +1,6 @@
 import abc
 
+import dependency
 import review_types
 
 
@@ -15,3 +16,7 @@ class AgentBase(abc.ABC):
     def should_run(self, review_request: review_types.ReviewRequest) -> bool:
         """Whether or not to run the agent based on the review request."""
         pass
+
+    def get_dependencies(self) -> list[dependency.Dependency]:
+        """The dependencies that this agent needs."""
+        return []
